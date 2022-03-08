@@ -1,8 +1,4 @@
 body {
-  background-color: bisque;
-  background-image: url('./assets/webpack.svg');
-  background-repeat: no-repeat;
-  background-size: cover;
   display: flex;
   flex-direction: column;
 }
@@ -15,8 +11,17 @@ body > * {
   flex: 1 1 auto;
 }
 
+footer {
+  background-color: #f5f5f7;
+  color: #6e6e73;
+  border: 1px solid #d2d2d7;
+  font-family: sans-serif, "Arial";
+  padding: 10px;
+}
+
 .main-cont {
   overflow-y: scroll;
+  min-height: 78vh;
 }
 
 li {
