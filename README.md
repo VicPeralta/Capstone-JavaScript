@@ -1,7 +1,9 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 # Capstone Project for JavaScript module
-> Capstone
+> Study & Relax   
+This App gives you a recomendation of JavaScript books to read and also let you hear some Beatles music, so you can concentrate and relax while you are studing.  
+This App uses the iTunes Searches API, for more information about this API please refer to the [Apple Reference](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html)
 
 
 ## Built With
