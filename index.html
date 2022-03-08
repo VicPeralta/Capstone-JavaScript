@@ -1,24 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Template</title>
-<script defer src="main.js"></script></head>
-<body class="d-flex">
-  <header class="header d-flex">
-    <div class="img"></div>
-    <ul class="d-flex nav-items">
-        <li>Music</li>
-        <li>Book</li>
-        <li>About</li>
-    </ul>
-  </header>
-  <main class="main-cont">
-  </main>
-  <footer>
-    <p>&copy; Victor Peralta & Ozoede Chukwuebuka Victor</p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study & Relax</title>
+  <script defer src="main.js"></script></head>
+  <body class="d-flex">
+    <header class="header d-flex">
+      <img src="" alt="" width="50">
+      <h1>Study & Relax App</h1>
+      <ul class="d-flex nav-items">
+        <li><a href="#" data-href="books">Books</a></li>
+        <li><a href="#" data-href="music">Music</a></li>
+        <li><a href="#" data-href="about">About</a></li>
+      </ul>
+    </header>
+    <main class="main-cont">
+      <div
+        class="items-container flex wrap justify-start"
+        id="items-container"
+      ></div>
+    </main>
+    <footer>
+      <p>&copy; Victor Peralta & Ozoede Chukwuebuka Victor</p>
+    </footer>
+    <template id="book-template">
+      <div class="book-card flex flex-1 round-border">
+        <div class="width-30">
+          <img class="small-image" src="" alt="" />
+        </div>
+        <div class="info-book flex-2">
+          <p class="title bold text-medium color-dark"></p>
+          <p class="author color-blue text-small"></p>
+        </div>
+        <div class="flex-1">
+          <button>Comments</button>
+          <button>Reservation</button>
+          <span class="material-icons color-red">favorite</span>
+        </div>
+      </div>
+    </template>
+    <template id="song-template">
+      <div class="song-card grid flex-1 round-border">
+        <div class="width-30">
+          <img class="small-image" src="" alt="" />
+        </div>
+        <div class="info-song flex-2">
+          <p class="title bold text-medium color-dark"></p>
+          <p class="album color-blue text-small"></p>
+        </div>
+        <div class="flex-1">
+          <button>Comments</button>
+          <button>Reservation</button>
+          <span class="material-icons color-red">favorite</span>
+        </div>
+      </div>
+    </template>
+  </body>
 </html>
