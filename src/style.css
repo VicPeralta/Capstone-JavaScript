@@ -3,10 +3,6 @@ body {
   flex-direction: column;
 }
 
-.main-cont {
-  min-height: 78vh;
-}
-
 .d-flex {
   display: flex;
 }
@@ -25,6 +21,7 @@ footer {
 
 .main-cont {
   overflow-y: scroll;
+  min-height: 78vh;
 }
 
 li {
