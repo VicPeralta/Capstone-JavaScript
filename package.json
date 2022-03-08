@@ -8,7 +8,7 @@
     "build": "webpack",
     "start": "webpack serve --open",
     "watch": "webpack --watch",
-    "lcss": "npx stylelint **/*.{css,scss}",
+    "lcss": "",
     "ljs": "npx eslint ."
   },
   "keywords": [],
