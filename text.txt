@@ -1,0 +1,4 @@
+nav-b-color: #313132
+body-bg-color: #ffffff
+font -serif or sans-serif
+imgs: in documents folder.
