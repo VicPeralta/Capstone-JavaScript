@@ -41,16 +41,37 @@ class App {
     return item.likes;
   }
 
+  updateLikesForID(id) {
+    const item = this.involmentInfo.find((element) => element.item_id === String(id));
+    if (!item) this.involmentInfo.push({ item_id: String(id), likes: 1 });
+    else item.likes += 1;
+  }
+
+  static postLike(id) {
+    const body = { item_id: String(id) };
+    makeRequest('https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/CVBeCf72ZS2klfsl0Bxs/likes/',
+      'POST', JSON.stringify(body));
+  }
+
   getBookCard(book, template) {
     const card = template.content.cloneNode(true).children[0];
     card.setAttribute('data-id', book.id);
     card.querySelector('.title').textContent = book.name.substr(0, 80);
     card.querySelector('.author').textContent = book.author;
     card.querySelector('img').setAttribute('src', book.image);
+    const heart = card.querySelector('.material-icons');
+    heart.setAttribute('data-id', book.id);
+    heart.addEventListener('click', (e) => {
+      App.postLike(e.target.dataset.id);
+      const likes = this.getLikesForID(e.target.dataset.id);
+      e.target.textContent = 'favorite';
+      e.target.parentNode.querySelector('.likes').textContent = likes + 1;
+      this.updateLikesForID(e.target.dataset.id);
+    });
     const likes = this.getLikesForID(book.id);
     if (likes === 0) card.querySelector('.material-icons').textContent = 'favorite_border';
     else {
-      card.querySelector('.material-icons').textContent = 'favorite';
+      heart.textContent = 'favorite';
       card.querySelector('.likes').textContent = likes;
     }
     return card;
@@ -62,10 +83,19 @@ class App {
     card.querySelector('.title').textContent = song.name;
     card.querySelector('.album').textContent = song.album;
     card.querySelector('img').setAttribute('src', song.image);
+    const heart = card.querySelector('.material-icons');
+    heart.setAttribute('data-id', song.id);
+    heart.addEventListener('click', (e) => {
+      App.postLike(e.target.dataset.id);
+      const likes = this.getLikesForID(e.target.dataset.id);
+      e.target.textContent = 'favorite';
+      e.target.parentNode.querySelector('.likes').textContent = likes + 1;
+      this.updateLikesForID(e.target.dataset.id);
+    });
     const likes = this.getLikesForID(song.id);
     if (likes === 0) card.querySelector('.material-icons').textContent = 'favorite_border';
     else {
-      card.querySelector('.material-icons').textContent = 'favorite';
+      heart.textContent = 'favorite';
       card.querySelector('.likes').textContent = likes;
     }
     return card;

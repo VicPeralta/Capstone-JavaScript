@@ -243,5 +243,13 @@ img {
 }
 
 img:hover {
+  transform: scale(1.2);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.material-icons:hover {
   transform: scale(1.5);
 }
