@@ -1,4 +1,4 @@
-async function makeRequest(url, method = 'GET') {
+async function makeRequest(url, method = 'GET', Body = '') {
   try {
     const options = {
       method: `${method}`,
@@ -6,6 +6,7 @@ async function makeRequest(url, method = 'GET') {
         'Content-Type': 'application/json',
       },
     };
+    if (Body !== '') options.body = Body;
     const results = await fetch(url, options).then((data) => data.json());
     return results;
   } catch {

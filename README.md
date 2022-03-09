@@ -12,8 +12,8 @@ This App uses the iTunes Searches API, for more information about this API pleas
 - CSS
 - Javascript
 
-## Live Demo (if available)
-[Live demo]())
+## Live Demo
+[Live demo](https://vicperalta.github.io/Capstone-JavaScript/)
 
 ## Mobile
 <img src="./mobile.png" width="50%" height="auto"/>
