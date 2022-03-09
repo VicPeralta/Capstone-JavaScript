@@ -8,7 +8,7 @@
   </head>
   <body class="d-flex">
     <header class="header d-flex">
-      <img src="./assets/tunes4.png" alt="" width="50">
+      <img src="./assets/tunes4.png" alt="" width="50" />
       <h1>Study & Relax App</h1>
       <ul class="d-flex nav-items">
         <li><a href="#" data-href="books">Books</a></li>
@@ -37,12 +37,15 @@
         <div class="flex-1">
           <button>Comments</button>
           <button>Reservation</button>
-          <span class="material-icons color-red">favorite</span>
+          <div class="flex align-center">
+            <span class="material-icons color-red">favorite</span>
+            <span class="likes"></span>
+          </div>
         </div>
       </div>
     </template>
     <template id="song-template">
-      <div class="song-card grid flex-1 round-border">
+      <div class="song-card flex flex-1 round-border column-direction">
         <div class="width-30">
           <img class="small-image" src="" alt="" />
         </div>
@@ -53,7 +56,10 @@
         <div class="flex-1">
           <button>Comments</button>
           <button>Reservation</button>
-          <span class="material-icons color-red">favorite</span>
+          <div class="flex align-center flex-1">
+            <span class="material-icons color-red">favorite</span>
+            <span class="likes"></span>
+          </div>
         </div>
       </div>
     </template>
