@@ -4,17 +4,29 @@ class App {
   async getBooksInfo() {
     const result = await makeRequest('https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US');
     this.bookList = [];
-    if (result.results.length > 0) {
-      result.results.forEach((element) => {
-        this.bookList.push({
-          id: element.trackId,
-          image: element.artworkUrl100,
-          name: element.trackName,
-          author: element.artistName,
+    try {
+      if (result.results.length > 0) {
+        result.results.forEach((element) => {
+          this.bookList.push({
+            id: element.trackId,
+            image: element.artworkUrl100,
+            name: element.trackName,
+            author: element.artistName,
+          });
         });
-      });
+      }
+    } catch {
+      return [];
     }
     return this.bookList;
+  }
+
+  getBooksItemsSize() {
+    return this.bookList.length;
+  }
+
+  getSongsItemsSize() {
+    return this.songList.length;
   }
 
   async getSongsInfo() {
@@ -110,6 +122,8 @@ class App {
       const card = this.getBookCard(book, template);
       container.appendChild(card);
     });
+    document.querySelector('header a[data-href="books"]').textContent = `Books (${this.getBooksItemsSize()})`;
+    document.querySelector('header a[data-href="music"]').textContent = 'Music';
   }
 
   async fillSongCards() {
@@ -121,6 +135,8 @@ class App {
       const card = this.getSongCard(book, template);
       container.appendChild(card);
     });
+    document.querySelector('header a[data-href="music"]').textContent = `Music (${this.getBooksItemsSize()})`;
+    document.querySelector('header a[data-href="books"]').textContent = 'Books';
   }
 
   async getInvolmentInfo() {
