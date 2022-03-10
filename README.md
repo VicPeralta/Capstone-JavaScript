@@ -46,7 +46,7 @@ To get a local copy follow these simple example steps.
 👤 **Victor Peralta**
 - GitHub: [@VicPeralta](https://github.com/VicPeralta)
 
-👤 **Ozoede Chukwuebuka Victor**
+👤 **Victor Chukwuebuka Ozoede**
 - GitHub: [@chukwuebukaVictor](https://github.com/chukwuebukaVictor)
 
 ## 🤝 Contributing
