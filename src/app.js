@@ -41,7 +41,7 @@ class App {
     makeRequest(url, 'POST', JSON.stringify(body));
   }
 
-  static async getBookInfo(id) {
+  static async getItemInfo(id) {
     const url = ` https://itunes.apple.com/lookup?id=${id}`;
     const result = makeRequest(url);
     return result;
@@ -108,6 +108,52 @@ class App {
     return innerHtml;
   }
 
+  static showPopSong(comments, songInfo) {
+    const template = document.getElementById('song-popup');
+    const popup = template.content.cloneNode(true).children[0];
+    popup.querySelector('.image-song').setAttribute('src', App.getBiggerImageUrl(songInfo.artworkUrl100));
+    popup.querySelector('.preview').setAttribute('href', songInfo.trackViewUrl);
+    popup.querySelector('.title').textContent = songInfo.trackName;
+    popup.querySelector('.album').textContent = songInfo.collectionName;
+    popup.querySelector('.preview-song').setAttribute('src', songInfo.previewUrl);
+    popup.querySelector('.release').textContent = songInfo.releaseDate.substring(0, 10);
+    popup.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
+    popup.querySelector('.addComment-btn').setAttribute('data-id', songInfo.trackId);
+    const commentContainer = popup.querySelector('.comments-container');
+    const innerHtml = App.getHTMLComments(comments);
+    commentContainer.innerHTML = innerHtml;
+    popup.querySelector('#close-btn-song').addEventListener('click', () => {
+      const pop = document.querySelector('.popup');
+      document.querySelector('body').removeChild(pop);
+      makeScrollable();
+    });
+    popup.querySelector('.addComment-btn').addEventListener('click', async (e) => {
+      const pop = document.querySelector('.popup');
+      const name = pop.querySelector('#name-song');
+      const comment = pop.querySelector('#comment-song');
+      if (!name.checkValidity()) {
+        name.reportValidity();
+        return;
+      }
+      if (!comment.checkValidity()) {
+        comment.reportValidity();
+        return;
+      }
+      App.postComment(e.target.dataset.id, name.value, comment.value);
+      name.value = '';
+      comment.value = '';
+      name.focus();
+      App.getComments(e.target.dataset.id);
+      const comments = await App.getComments(e.target.dataset.id);
+      const commentContainer = popup.querySelector('.comments-container');
+      const innerHtml = App.getHTMLComments(comments);
+      commentContainer.innerHTML = innerHtml;
+      pop.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
+    });
+    document.querySelector('body').appendChild(popup);
+    makeNotScrollable();
+  }
+
   static showPopBook(comments, bookInfo) {
     const template = document.getElementById('book-popup');
     const popup = template.content.cloneNode(true).children[0];
@@ -122,15 +168,15 @@ class App {
     const commentContainer = popup.querySelector('.comments-container');
     const innerHtml = App.getHTMLComments(comments);
     commentContainer.innerHTML = innerHtml;
-    popup.querySelector('#close-btn').addEventListener('click', () => {
+    popup.querySelector('#close-btn-book').addEventListener('click', () => {
       const pop = document.querySelector('.popup');
       document.querySelector('body').removeChild(pop);
       makeScrollable();
     });
     popup.querySelector('.addComment-btn').addEventListener('click', async (e) => {
       const pop = document.querySelector('.popup');
-      const name = pop.querySelector('#name');
-      const comment = pop.querySelector('#comment');
+      const name = pop.querySelector('#name-book');
+      const comment = pop.querySelector('#comment-book');
       if (!name.checkValidity()) {
         name.reportValidity();
         return;
@@ -165,7 +211,7 @@ class App {
     commentsBtn.addEventListener('click', async (e) => {
       const promises = [];
       promises.push(App.getComments(e.target.dataset.id));
-      promises.push(App.getBookInfo(e.target.dataset.id));
+      promises.push(App.getItemInfo(e.target.dataset.id));
       const resolves = await Promise.all(promises);
       App.showPopBook(resolves[0], resolves[1].results[0]);
     });
@@ -193,6 +239,15 @@ class App {
     card.querySelector('.title').textContent = song.name;
     card.querySelector('.album').textContent = song.album;
     card.querySelector('img').setAttribute('src', song.image);
+    const commentsBtn = card.querySelector('.comments-btn');
+    commentsBtn.setAttribute('data-id', song.id);
+    commentsBtn.addEventListener('click', async (e) => {
+      const promises = [];
+      promises.push(App.getComments(e.target.dataset.id));
+      promises.push(App.getItemInfo(e.target.dataset.id));
+      const resolves = await Promise.all(promises);
+      App.showPopSong(resolves[0], resolves[1].results[0]);
+    });
     const heart = card.querySelector('.material-icons');
     heart.setAttribute('data-id', song.id);
     heart.addEventListener('click', (e) => {

@@ -157,7 +157,8 @@ a {
   margin: auto auto;
 }
 
-#close-btn {
+#close-btn-book,
+#close-btn-song {
   display: block;
   margin-top: 20px;
   margin-right: 20px;
@@ -274,14 +275,6 @@ button {
 
 button:hover {
   background-color: lightgray;
-}
-
-img {
-  cursor: pointer;
-}
-
-img:hover {
-  transform: scale(1.2);
 }
 
 .clickable {
