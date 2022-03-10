@@ -257,6 +257,11 @@ a {
   padding-bottom: 10px;
 }
 
+.not-selectable {
+  user-select: none;
+  cursor: none;
+}
+
 .round-border {
   border: 1px solid darkgray;
   border-radius: 8px;
