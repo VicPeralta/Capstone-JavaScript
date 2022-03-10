@@ -77,9 +77,28 @@ class App {
       'POST', JSON.stringify(body));
   }
 
+  static getBiggerImageUrl(url) {
+    let newUrl = url.substring(0, url.length - 13);
+    newUrl += '500x500bb.jpg';
+    console.log(newUrl);
+    return newUrl;
+  }
+
+  static removeMarkDown(text) {
+    const newString = text.replaceAll(/(<([^>]+)>)/ig, ' ');
+   return newString;
+  }
+
   static showPopBook(comments, bookInfo) {
+    console.log(bookInfo);
     const template = document.getElementById('book-popup');
     const popup = template.content.cloneNode(true).children[0];
+    popup.querySelector('.image-book').setAttribute('src', App.getBiggerImageUrl(bookInfo.artworkUrl100));
+    popup.querySelector('.preview').setAttribute('href', bookInfo.trackViewUrl);
+    popup.querySelector('.title').textContent = bookInfo.trackName;
+    popup.querySelector('.author').textContent = bookInfo.artistName;
+    popup.querySelector('.description').textContent = App.removeMarkDown(bookInfo.description);
+    popup.querySelector('.release').textContent = bookInfo.releaseDate.substring(0, 10);
     popup.querySelector('#close-btn').addEventListener('click', () => {
       const pop = document.querySelector('.popup');
       document.querySelector('body').removeChild(pop);
@@ -102,9 +121,7 @@ class App {
       promises.push(App.getComments(e.target.dataset.id));
       promises.push(App.getBookInfo(e.target.dataset.id));
       const resolves = await Promise.all(promises);
-      console.log(`Comments for item: ${e.target.dataset.id} \n ${resolves[0]}`);
-      console.log(`Info for item: ${e.target.dataset.id} \n ${resolves[1].resultCount}`);
-      App.showPopBook(resolves[0], resolves[1]);
+      App.showPopBook(resolves[0], resolves[1].results[0]);
     });
     const heart = card.querySelector('.material-icons');
     heart.setAttribute('data-id', book.id);
