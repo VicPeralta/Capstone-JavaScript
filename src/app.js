@@ -25,6 +25,10 @@ class App {
     return this.bookList.length;
   }
 
+  static getCommentsSize(comments) {
+    return comments.length;
+  }
+
   getSongsItemsSize() {
     return this.songList.length;
   }
@@ -117,7 +121,8 @@ class App {
     popup.querySelector('.album').textContent = songInfo.collectionName;
     popup.querySelector('.preview-song').setAttribute('src', songInfo.previewUrl);
     popup.querySelector('.release').textContent = songInfo.releaseDate.substring(0, 10);
-    popup.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
+    const commentSize = App.getCommentsSize(comments);
+    popup.querySelector('.comments h2').textContent = `Comments (${commentSize})`;
     popup.querySelector('.addComment-btn').setAttribute('data-id', songInfo.trackId);
     const commentContainer = popup.querySelector('.comments-container');
     const innerHtml = App.getHTMLComments(comments);
@@ -163,7 +168,8 @@ class App {
     popup.querySelector('.author').textContent = bookInfo.artistName;
     popup.querySelector('.description').textContent = App.removeMarkDown(bookInfo.description);
     popup.querySelector('.release').textContent = bookInfo.releaseDate.substring(0, 10);
-    popup.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
+    const commentSize = App.getCommentsSize(comments);
+    popup.querySelector('.comments h2').textContent = `Comments (${commentSize})`;
     popup.querySelector('.addComment-btn').setAttribute('data-id', bookInfo.trackId);
     const commentContainer = popup.querySelector('.comments-container');
     const innerHtml = App.getHTMLComments(comments);
