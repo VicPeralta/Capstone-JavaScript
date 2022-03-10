@@ -1,4 +1,4 @@
-import makeRequest from './utils.js';
+import { makeRequest, makeScrollable, makeNotScrollable } from './utils.js';
 
 class App {
   async getBooksInfo() {
@@ -27,6 +27,18 @@ class App {
 
   getSongsItemsSize() {
     return this.songList.length;
+  }
+
+  static getComments(id) {
+    const url = `https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/CVBeCf72ZS2klfsl0Bxs/comments?item_id=${id}`;
+    const result = makeRequest(url);
+    return result;
+  }
+
+  static async getBookInfo(id) {
+    const url = ` https://itunes.apple.com/lookup?id=${id}`;
+    const result = makeRequest(url);
+    return result;
   }
 
   async getSongsInfo() {
@@ -65,12 +77,35 @@ class App {
       'POST', JSON.stringify(body));
   }
 
+  static showPopBook(comments, bookInfo) {
+    const template = document.getElementById('book-popup');
+    const popup = template.content.cloneNode(true).children[0];
+    popup.querySelector('#close-btn').addEventListener('click', () => {
+      const pop = document.querySelector('.popup');
+      document.querySelector('body').removeChild(pop);
+      makeScrollable();
+    });
+    document.querySelector('body').appendChild(popup);
+    makeNotScrollable();
+  }
+
   getBookCard(book, template) {
     const card = template.content.cloneNode(true).children[0];
     card.setAttribute('data-id', book.id);
     card.querySelector('.title').textContent = book.name.substr(0, 80);
     card.querySelector('.author').textContent = book.author;
     card.querySelector('img').setAttribute('src', book.image);
+    const commentsBtn = card.querySelector('.comments-btn');
+    commentsBtn.setAttribute('data-id', book.id);
+    commentsBtn.addEventListener('click', async (e) => {
+      const promises = [];
+      promises.push(App.getComments(e.target.dataset.id));
+      promises.push(App.getBookInfo(e.target.dataset.id));
+      const resolves = await Promise.all(promises);
+      console.log(`Comments for item: ${e.target.dataset.id} \n ${resolves[0]}`);
+      console.log(`Info for item: ${e.target.dataset.id} \n ${resolves[1].resultCount}`);
+      App.showPopBook(resolves[0], resolves[1]);
+    });
     const heart = card.querySelector('.material-icons');
     heart.setAttribute('data-id', book.id);
     heart.addEventListener('click', (e) => {

@@ -11,11 +11,24 @@ async function makeRequest(url, method = 'GET', Body = '') {
       credentials: 'same-origin',
     };
     if (Body !== '') options.body = Body;
-    const results = await fetch(url, options).then((data) => data.json());
-    return results;
+    const result = await fetch(url, options);
+    if (result.status === 200) return result.json();
+    return [];
   } catch {
     return [];
   }
 }
 
-export default makeRequest;
+function makeScrollable() {
+  const body = document.querySelector('body');
+  body.classList.remove('makeNotScrollable');
+  body.classList.add('makeScrollable');
+}
+
+function makeNotScrollable() {
+  const body = document.querySelector('body');
+  body.classList.remove('makeScrollable');
+  body.classList.add('makeNotScrollable');
+}
+
+export { makeRequest, makeScrollable, makeNotScrollable };

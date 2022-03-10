@@ -27,6 +27,12 @@ li {
   color: inherit;
 }
 
+input,
+textarea {
+  font-family: inherit;
+  font-size: 1.2rem;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -132,6 +138,38 @@ a {
 .container {
   width: 100%;
   padding-inline: 20px;
+}
+
+.container-80 {
+  width: 80%;
+  padding-inline: 20px;
+}
+
+.popup {
+  position: absolute;
+  width: 80vw;
+  height: 80vh;
+  top: 10%;
+  left: 10%;
+  z-index: 1;
+  overflow-y: scroll;
+  background-color: white;
+  margin: auto auto;
+}
+
+#close-btn {
+  display: block;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: auto;
+}
+
+.makeScrollable {
+  overflow-y: visible;
+}
+
+.makeNotScrollable {
+  overflow-y: hidden;
 }
 
 .grid {
@@ -252,4 +290,8 @@ img:hover {
 
 .material-icons:hover {
   transform: scale(1.5);
+}
+
+li a:hover {
+  color: lightblue;
 }
