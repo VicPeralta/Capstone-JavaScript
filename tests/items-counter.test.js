@@ -70,3 +70,32 @@ describe('Items counter test', () => {
     spy.mockRestore();
   });
 });
+
+describe('Comments counter test', () => {
+  test('Comments counter', () => {
+    const spy = jest.spyOn(App, 'getComments').mockImplementation(() => {
+      const items = [
+        {
+          comment: 'Hello',
+          username: 'Jane',
+          creation_date: '2022-03-10',
+        },
+        {
+          comment: 'Hello',
+          username: 'Jane',
+          creation_date: '2022-03-10',
+        },
+        {
+          comment: 'Hello',
+          username: 'Jane',
+          creation_date: '2022-03-10',
+        },
+      ];
+      return items;
+    });
+    const comments = App.getComments();
+    const counter = App.getCommentsSize(comments);
+    expect(counter).toBe(3);
+    spy.mockRestore();
+  });
+});
