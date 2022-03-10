@@ -35,6 +35,12 @@ class App {
     return result;
   }
 
+  static postComment(id, user, comment) {
+    const url = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/CVBeCf72ZS2klfsl0Bxs/comments';
+    const body = { item_id: id, username: user, comment };
+    makeRequest(url, 'POST', JSON.stringify(body));
+  }
+
   static async getBookInfo(id) {
     const url = ` https://itunes.apple.com/lookup?id=${id}`;
     const result = makeRequest(url);
@@ -80,17 +86,29 @@ class App {
   static getBiggerImageUrl(url) {
     let newUrl = url.substring(0, url.length - 13);
     newUrl += '500x500bb.jpg';
-    console.log(newUrl);
     return newUrl;
   }
 
   static removeMarkDown(text) {
     const newString = text.replaceAll(/(<([^>]+)>)/ig, ' ');
-   return newString;
+    return newString;
+  }
+
+  static getHTMLComments(comments) {
+    let innerHtml = '';
+    comments.forEach((comment) => {
+      innerHtml += `
+      <div class="comment flex padding-y">
+        <p class="date">${comment.creation_date}</p>
+        <p class="user bold">${comment.username}</p>
+        <p class="comment">${comment.comment}</p>
+      </div>
+      `;
+    });
+    return innerHtml;
   }
 
   static showPopBook(comments, bookInfo) {
-    console.log(bookInfo);
     const template = document.getElementById('book-popup');
     const popup = template.content.cloneNode(true).children[0];
     popup.querySelector('.image-book').setAttribute('src', App.getBiggerImageUrl(bookInfo.artworkUrl100));
@@ -99,10 +117,38 @@ class App {
     popup.querySelector('.author').textContent = bookInfo.artistName;
     popup.querySelector('.description').textContent = App.removeMarkDown(bookInfo.description);
     popup.querySelector('.release').textContent = bookInfo.releaseDate.substring(0, 10);
+    popup.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
+    popup.querySelector('.addComment-btn').setAttribute('data-id', bookInfo.trackId);
+    const commentContainer = popup.querySelector('.comments-container');
+    const innerHtml = App.getHTMLComments(comments);
+    commentContainer.innerHTML = innerHtml;
     popup.querySelector('#close-btn').addEventListener('click', () => {
       const pop = document.querySelector('.popup');
       document.querySelector('body').removeChild(pop);
       makeScrollable();
+    });
+    popup.querySelector('.addComment-btn').addEventListener('click', async (e) => {
+      const pop = document.querySelector('.popup');
+      const name = pop.querySelector('#name');
+      const comment = pop.querySelector('#comment');
+      if (!name.checkValidity()) {
+        name.reportValidity();
+        return;
+      }
+      if (!comment.checkValidity()) {
+        comment.reportValidity();
+        return;
+      }
+      App.postComment(e.target.dataset.id, name.value, comment.value);
+      name.value = '';
+      comment.value = '';
+      name.focus();
+      App.getComments(e.target.dataset.id);
+      const comments = await App.getComments(e.target.dataset.id);
+      const commentContainer = popup.querySelector('.comments-container');
+      const innerHtml = App.getHTMLComments(comments);
+      commentContainer.innerHTML = innerHtml;
+      pop.querySelector('.comments h2').textContent = `Comments (${comments.length})`;
     });
     document.querySelector('body').appendChild(popup);
     makeNotScrollable();
