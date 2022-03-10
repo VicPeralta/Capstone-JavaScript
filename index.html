@@ -8,7 +8,7 @@
   <script defer src="main.js"></script></head>
   <body class="d-flex">
     <header class="header d-flex">
-      <img src="808853c51229c1c8e220.png" alt="" width="50" />
+      <img src="b54014655345e172051b.png" alt="" width="90" />
       <h1>Study & Relax App</h1>
       <ul class="d-flex nav-items">
         <li><a href="#" data-href="books">Books</a></li>
@@ -35,7 +35,7 @@
           <p class="author color-blue text-small"></p>
         </div>
         <div class="flex-1">
-          <button>Comments</button>
+          <button class="comments-btn">Comments</button>
           <button>Reservation</button>
           <div class="flex align-center">
             <span class="material-icons color-red clickable" data-id="1"
@@ -64,6 +64,77 @@
             >
             <span class="likes"></span>
           </div>
+        </div>
+      </div>
+    </template>
+    <template id="book-popup">
+      <div class="popup round-border">
+        <button id="close-btn">X</button>
+        <div class="info-book flex padding-10">
+          <img
+            src="https://is3-ssl.mzstatic.com/image/thumb/Publication1/v4/51/7e/de/517ede57-f0bf-1b4e-bf82-c0cfd9cd95a4/9780735695702.jpg/500x500bb.jpg"
+            alt=""
+            class="flex-1"
+          />
+          <div
+            class="textBook column-direction align-start flex flex-2"
+          >
+            <p class="text-large">
+              Programming Windows Store Apps with HTML, CSS, and JavaScript, 2/e
+            </p>
+            <p class="text-medium color-blue">Kraig Brockschmidt</p>
+            <span>
+              Microsoft Press is pleased to offer the second edition of Kraig
+              Brockschmidt's in-depth ebook on writing Windows Store apps using
+              HTML, CSS3, and JavaScript on the Windows 8.1 platform. The ebook
+              includes 20 chapters and 4 appendices.
+            </span>
+            <span class="bold">Genre:</span>
+            <span>Internet, Books, Computers & Internet</span> <br />
+            <span class="bold">Release Date:</span>
+            <span>2014-07-29</span> <br />
+            <span class="bold">Preview page:</span>
+            <a
+              target="_blank"
+              rel="noreferrer noopener"
+              href="https://books.apple.com/us/book/programming-windows-store-apps-with-html-css/id900465010?uo=4"
+              >https://books.apple.com/us/book/programming-windows-store-apps-with-html-css/id900465010?uo=4</a
+            >
+          </div>
+        </div>
+        <div class="comments padding-10">
+          <h2 class="padding-y">Comments (2)</h2>
+          <div class="comments-container">
+            <div class="comment flex padding-y">
+              <p class="date">2022-03-04</p>
+              <p class="user bold">Victor</p>
+              <p class="comment">Great Site</p>
+            </div>
+            <div class="comment flex padding-y">
+              <p class="date">2022-03-04</p>
+              <p class="user bold">Victor</p>
+              <p class="comment">Great Site</p>
+            </div>
+          </div>
+        </div>
+        <div class="form flex column-direction padding-10">
+          <h2>Add a comment</h2>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            placeholder="Your name"
+          />
+          <textarea
+            name="comment"
+            id="comment"
+            placeholder="Your comment"
+            rows="5"
+            cols="50"
+            required
+          ></textarea>
+          <button>Submit</button>
         </div>
       </div>
     </template>
