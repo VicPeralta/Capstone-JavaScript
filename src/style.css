@@ -276,14 +276,6 @@ button:hover {
   background-color: lightgray;
 }
 
-img {
-  cursor: pointer;
-}
-
-img:hover {
-  transform: scale(1.2);
-}
-
 .clickable {
   cursor: pointer;
 }
