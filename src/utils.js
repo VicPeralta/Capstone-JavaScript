@@ -20,13 +20,13 @@ async function makeRequest(url, method = 'GET', Body = '') {
 }
 
 function makeScrollable() {
-  const body = document.querySelector('body');
+  const body = document.querySelector('.main-cont');
   body.classList.remove('makeNotScrollable');
   body.classList.add('makeScrollable');
 }
 
 function makeNotScrollable() {
-  const body = document.querySelector('body');
+  const body = document.querySelector('.main-cont');
   body.classList.remove('makeScrollable');
   body.classList.add('makeNotScrollable');
 }

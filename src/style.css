@@ -30,7 +30,7 @@ li {
 input,
 textarea {
   font-family: inherit;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   padding: 5px;
 }
 
@@ -167,7 +167,7 @@ header {
 }
 
 .makeScrollable {
-  overflow-y: visible;
+  overflow-y: scroll;
 }
 
 .makeNotScrollable {
@@ -181,6 +181,10 @@ header {
 
 .text-center {
   text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .column-direction {
@@ -273,6 +277,11 @@ header {
   padding: 8px;
 }
 
+.comments {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
 button {
   font-family: inherit;
   background-color: inherit;
@@ -299,6 +308,12 @@ li a:hover {
   color: lightblue;
 }
 
+@media screen and (max-width:800px) {
+  .info-book {
+    flex-direction: column;
+  }
+}
+
 @media screen and (max-width:360px) {
   header {
     flex-direction: column;
@@ -312,4 +327,6 @@ li a:hover {
   .main-cont {
     padding: 10px;
   }
+
+  
 }
