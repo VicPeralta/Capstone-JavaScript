@@ -63,7 +63,8 @@ footer {
   padding: 5% 10%;
 }
 
-.book-card {
+.book-card,
+.song-card {
   min-width: 340px;
 }
 
