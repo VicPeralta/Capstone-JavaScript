@@ -21,16 +21,8 @@ class App {
     return this.bookList;
   }
 
-  getBooksItemsSize() {
-    return this.bookList.length;
-  }
-
   static getCommentsSize(comments) {
     return comments.length;
-  }
-
-  getSongsItemsSize() {
-    return this.songList.length;
   }
 
   static getComments(id) {
@@ -51,34 +43,9 @@ class App {
     return result;
   }
 
-  async getSongsInfo() {
-    const result = await makeRequest('https://itunes.apple.com/search?term=the+beatles&media=music&limit=48&country=US');
-    this.songList = [];
-    if (result.results.length > 0) {
-      result.results.forEach((element) => {
-        this.songList.push({
-          id: element.trackId,
-          image: element.artworkUrl100,
-          name: element.trackName,
-          album: element.collectionName,
-          preview: element.previewUrl,
-          release: element.releaseDate,
-        });
-      });
-    }
-    return this.songList;
-  }
-
-  getLikesForID(id) {
-    const item = this.involmentInfo.find((element) => element.item_id === String(id));
-    if (!item) return 0;
-    return item.likes;
-  }
-
-  updateLikesForID(id) {
-    const item = this.involmentInfo.find((element) => element.item_id === String(id));
-    if (!item) this.involmentInfo.push({ item_id: String(id), likes: 1 });
-    else item.likes += 1;
+  static async getItemList(url) {
+    const result = await makeRequest(url);
+    return result;
   }
 
   static postLike(id) {
@@ -206,23 +173,55 @@ class App {
     makeNotScrollable();
   }
 
-  getBookCard(book, template) {
+  getBooksItemsSize() {
+    return this.bookList.length;
+  }
+
+  getSongsItemsSize() {
+    return this.songList.length;
+  }
+
+  getLikesForID(id) {
+    const item = this.involmentInfo.find((element) => element.item_id === String(id));
+    if (!item) return 0;
+    return item.likes;
+  }
+
+  updateLikesForID(id) {
+    const item = this.involmentInfo.find((element) => element.item_id === String(id));
+    if (!item) this.involmentInfo.push({ item_id: String(id), likes: 1 });
+    else item.likes += 1;
+  }
+
+  getItemCard(item) {
+    const template = document.getElementById('item-template');
     const card = template.content.cloneNode(true).children[0];
-    card.setAttribute('data-id', book.id);
-    card.querySelector('.title').textContent = book.name.substr(0, 80);
-    card.querySelector('.author').textContent = book.author;
-    card.querySelector('img').setAttribute('src', book.image);
+    card.setAttribute('data-id', item.trackId);
+    card.querySelector('.title').textContent = item.trackName;
+    if (item.collectionName) card.querySelector('.author').textContent = item.collectionName;
+    else card.querySelector('.author').textContent = item.artistName;
+    card.querySelector('img').setAttribute('src', item.artworkUrl100);
     const commentsBtn = card.querySelector('.comments-btn');
-    commentsBtn.setAttribute('data-id', book.id);
-    commentsBtn.addEventListener('click', async (e) => {
-      const promises = [];
-      promises.push(App.getComments(e.target.dataset.id));
-      promises.push(App.getItemInfo(e.target.dataset.id));
-      const resolves = await Promise.all(promises);
-      App.showPopBook(resolves[0], resolves[1].results[0]);
-    });
+    commentsBtn.setAttribute('data-id', item.trackId);
+    if (item.collectionName) {
+      commentsBtn.addEventListener('click', async (e) => {
+        const promises = [];
+        promises.push(App.getComments(e.target.dataset.id));
+        promises.push(App.getItemInfo(e.target.dataset.id));
+        const resolves = await Promise.all(promises);
+        App.showPopSong(resolves[0], resolves[1].results[0]);
+      });
+    } else {
+      commentsBtn.addEventListener('click', async (e) => {
+        const promises = [];
+        promises.push(App.getComments(e.target.dataset.id));
+        promises.push(App.getItemInfo(e.target.dataset.id));
+        const resolves = await Promise.all(promises);
+        App.showPopBook(resolves[0], resolves[1].results[0]);
+      });
+    }
     const heart = card.querySelector('.material-icons');
-    heart.setAttribute('data-id', book.id);
+    heart.setAttribute('data-id', item.trackId);
     heart.addEventListener('click', (e) => {
       App.postLike(e.target.dataset.id);
       const likes = this.getLikesForID(e.target.dataset.id);
@@ -230,7 +229,7 @@ class App {
       e.target.parentNode.querySelector('.likes').textContent = likes + 1;
       this.updateLikesForID(e.target.dataset.id);
     });
-    const likes = this.getLikesForID(book.id);
+    const likes = this.getLikesForID(item.trackId);
     if (likes === 0) card.querySelector('.material-icons').textContent = 'favorite_border';
     else {
       heart.textContent = 'favorite';
@@ -239,63 +238,38 @@ class App {
     return card;
   }
 
-  getSongCard(song, template) {
-    const card = template.content.cloneNode(true).children[0];
-    card.setAttribute('data-id', song.id);
-    card.querySelector('.title').textContent = song.name;
-    card.querySelector('.album').textContent = song.album;
-    card.querySelector('img').setAttribute('src', song.image);
-    const commentsBtn = card.querySelector('.comments-btn');
-    commentsBtn.setAttribute('data-id', song.id);
-    commentsBtn.addEventListener('click', async (e) => {
-      const promises = [];
-      promises.push(App.getComments(e.target.dataset.id));
-      promises.push(App.getItemInfo(e.target.dataset.id));
-      const resolves = await Promise.all(promises);
-      App.showPopSong(resolves[0], resolves[1].results[0]);
+  fillItemsCards(list) {
+    const container = document.getElementById('items-container');
+    while (container.lastChild) container.removeChild(container.lastChild);
+    list.forEach((item) => {
+      const card = this.getItemCard(item);
+      container.appendChild(card);
     });
-    const heart = card.querySelector('.material-icons');
-    heart.setAttribute('data-id', song.id);
-    heart.addEventListener('click', (e) => {
-      App.postLike(e.target.dataset.id);
-      const likes = this.getLikesForID(e.target.dataset.id);
-      e.target.textContent = 'favorite';
-      e.target.parentNode.querySelector('.likes').textContent = likes + 1;
-      this.updateLikesForID(e.target.dataset.id);
-    });
-    const likes = this.getLikesForID(song.id);
-    if (likes === 0) card.querySelector('.material-icons').textContent = 'favorite_border';
-    else {
-      heart.textContent = 'favorite';
-      card.querySelector('.likes').textContent = likes;
+    if (list === this.bookList) {
+      document.querySelector('header a[data-href="books"]').textContent = `Books (${this.getBooksItemsSize()})`;
+      document.querySelector('header a[data-href="music"]').textContent = 'Music';
+    } else {
+      document.querySelector('header a[data-href="books"]').textContent = 'Book';
+      document.querySelector('header a[data-href="music"]').textContent = `Music (${this.getSongsItemsSize()})`;
     }
-    return card;
   }
 
   async fillBookCards() {
-    this.bookList = await this.getBooksInfo();
-    const container = document.getElementById('items-container');
-    while (container.lastChild) container.removeChild(container.lastChild);
-    const template = document.getElementById('book-template');
-    this.bookList.forEach((book) => {
-      const card = this.getBookCard(book, template);
-      container.appendChild(card);
-    });
-    document.querySelector('header a[data-href="books"]').textContent = `Books (${this.getBooksItemsSize()})`;
-    document.querySelector('header a[data-href="music"]').textContent = 'Music';
+    const result = await App.getItemList('https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US');
+    this.bookList = [];
+    if (result.results.length > 0) {
+      this.bookList = result.results;
+      this.fillItemsCards(this.bookList);
+    }
   }
 
   async fillSongCards() {
-    this.songList = await this.getSongsInfo();
-    const container = document.getElementById('items-container');
-    while (container.lastChild) container.removeChild(container.lastChild);
-    const template = document.getElementById('song-template');
-    this.songList.forEach((book) => {
-      const card = this.getSongCard(book, template);
-      container.appendChild(card);
-    });
-    document.querySelector('header a[data-href="music"]').textContent = `Music (${this.getBooksItemsSize()})`;
-    document.querySelector('header a[data-href="books"]').textContent = 'Books';
+    const result = await App.getItemList('https://itunes.apple.com/search?term=the+beatles&media=music&limit=48&country=US');
+    this.songList = [];
+    if (result.results.length > 0) {
+      this.songList = result.results;
+      this.fillItemsCards(this.songList);
+    }
   }
 
   async getInvolmentInfo() {
@@ -307,9 +281,10 @@ class App {
     });
   }
 
-  async init() {
+  async run() {
     await this.getInvolmentInfo();
     await this.fillBookCards();
+    this.addEventListeners();
   }
 
   addEventListeners() {

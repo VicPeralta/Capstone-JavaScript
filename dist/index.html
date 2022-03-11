@@ -7,10 +7,12 @@
     <title>Study & Relax</title>
   <script defer src="main.js"></script></head>
   <body class="flex">
-    <header class="header d-flex">
-      <img src="b54014655345e172051b.png" alt="" width="90" />
-      <h1>Study & Relax App</h1>
-      <ul class="d-flex nav-items">
+    <header class="flex">
+      <div>
+        <img src="b54014655345e172051b.png" alt="" width="90" />
+        <h1>Study & Relax App</h1>
+      </div>
+      <ul class="flex nav-items">
         <li><a href="#" data-href="books">Books</a></li>
         <li><a href="#" data-href="music">Music</a></li>
       </ul>
@@ -24,7 +26,7 @@
     <footer>
       <p>&copy; 2022 Victor Peralta & Victor Chukwuebuka Ozoede</p>
     </footer>
-    <template id="book-template">
+    <template id="item-template">
       <div class="book-card flex flex-1 round-border">
         <div class="width-30">
           <img class="small-image" src="" alt="" />
@@ -37,28 +39,9 @@
           <button class="comments-btn">Comments</button>
           <button>Reservation</button>
           <div class="flex align-center">
-            <span class="material-icons color-red clickable not-selectable" data-id="1"
-              >favorite</span
-            >
-            <span class="likes"></span>
-          </div>
-        </div>
-      </div>
-    </template>
-    <template id="song-template">
-      <div class="song-card flex flex-1 round-border column-direction">
-        <div class="width-30">
-          <img class="small-image" src="" alt="" />
-        </div>
-        <div class="info-song flex-2">
-          <p class="title bold text-medium color-dark"></p>
-          <p class="album color-blue text-small"></p>
-        </div>
-        <div class="flex-1">
-          <button class="comments-btn">Comments</button>
-          <button>Reservation</button>
-          <div class="flex align-center flex-1">
-            <span class="material-icons color-red clickable" data-id="1"
+            <span
+              class="material-icons color-red clickable not-selectable"
+              data-id="1"
               >favorite</span
             >
             <span class="likes"></span>
@@ -75,25 +58,26 @@
             alt=""
             class="image-book flex-1"
           />
-          <div class="textBook column-direction align-start flex flex-2">
+          <div
+            class="textBook column-direction align-start flex flex-2"
+            style="--gap: 0.4rem"
+          >
             <p class="title text-large">
               Programming Windows Store Apps with HTML, CSS, and JavaScript, 2/e
             </p>
             <p class="author text-medium color-blue">Kraig Brockschmidt</p>
-            <span class="description">
+            <span class="description text-medium text-justify">
               Microsoft Press is pleased to offer the second edition of Kraig
               Brockschmidt's in-depth ebook on writing Windows Store apps using
               HTML, CSS3, and JavaScript on the Windows 8.1 platform. The ebook
               includes 20 chapters and 4 appendices.
             </span>
-            <span class="bold">Genre:</span>
-            <span class="genres">Internet, Books, Computers & Internet</span>
             <br />
             <span class="bold">Release Date:</span>
             <span class="release">2014-07-29</span> <br />
             <span class="bold">Preview page:</span>
             <a
-              class="preview"
+              class="preview color-blue"
               target="_blank"
               rel="noreferrer noopener"
               href="https://books.apple.com/us/book/programming-windows-store-apps-with-html-css/id900465010?uo=4"
@@ -129,13 +113,13 @@
     <template id="song-popup">
       <div class="popup round-border">
         <button id="close-btn-song">X</button>
-        <div class="info-song flex padding-10">
+        <div class="info-song flex padding-10 round-border">
           <img
             src="https://is2-ssl.mzstatic.com/image/thumb/Music114/v4/2a/f9/04/2af904cd-f05a-d5a1-8014-c1387855b56c/source/500x500bb.jpg"
             alt=""
-            class="image-song flex-1"
+            class="image-song flex-1  round-border"
           />
-          <div class="textBook column-direction align-start flex flex-2">
+          <div class="textBook  round-border column-direction align-start flex flex-2">
             <p class="title text-large">Here Comes the Sun</p>
             <p class="album text-medium color-blue">Abbey Road (2019 Mix)</p>
             <audio
@@ -152,7 +136,7 @@
             <span class="release">1969-09-26</span> <br />
             <span class="bold">Preview page:</span>
             <a
-              class="preview"
+              class="preview color-blue"
               target="_blank"
               rel="noreferrer noopener"
               href="https://music.apple.com/us/album/here-comes-the-sun-2019-mix/1474815798?i=1474815898&uo=4"
