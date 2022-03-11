@@ -30,7 +30,7 @@ li {
 input,
 textarea {
   font-family: inherit;
-  font-size: 1.0rem;
+  font-size: 1rem;
   padding: 5px;
 }
 
@@ -232,6 +232,11 @@ header {
   height: auto;
 }
 
+.image-song {
+  width: 50%;
+  height: auto;
+}
+
 .small-image {
   width: 100px;
   height: auto;
@@ -312,20 +317,26 @@ li a:hover {
   color: lightblue;
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width: 800px) {
   .info-book {
+    flex-direction: column;
+  }
+
+  .info-song {
     flex-direction: column;
   }
 
   audio {
     width: 200px;
   }
-  .info-song {
-    flex-direction: column;
+
+  .image-song {
+    width: 100%;
+    height: auto;
   }
 }
 
-@media screen and (max-width:360px) {
+@media screen and (max-width: 360px) {
   header {
     flex-direction: column;
     padding-bottom: 5px;
