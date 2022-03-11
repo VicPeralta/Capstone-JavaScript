@@ -85,6 +85,10 @@ a {
   color: #fff;
 }
 
+.preview {
+  overflow-wrap: anywhere;
+}
+
 .nav-links {
   margin-left: 2rem;
   justify-content: space-between;
@@ -312,6 +316,13 @@ li a:hover {
   .info-book {
     flex-direction: column;
   }
+
+  audio {
+    width: 200px;
+  }
+  .info-song {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width:360px) {
@@ -327,6 +338,4 @@ li a:hover {
   .main-cont {
     padding: 10px;
   }
-
-  
 }
