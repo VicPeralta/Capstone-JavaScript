@@ -1,4 +1,6 @@
-import { makeRequest, makeScrollable, makeNotScrollable } from './utils.js';
+import {
+  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest
+} from './utils.js';
 
 class App {
   async getBooksInfo() {
@@ -39,12 +41,14 @@ class App {
 
   static async getItemInfo(id) {
     const url = ` https://itunes.apple.com/lookup?id=${id}`;
-    const result = makeRequest(url);
+    const result = makeXMLRequest(url);
     return result;
   }
 
   static async getItemList(url) {
-    const result = await makeRequest(url);
+    // const result = await makeRequest(url);
+    console.log(url);
+    const result = makeXMLRequest(url);
     return result;
   }
 
