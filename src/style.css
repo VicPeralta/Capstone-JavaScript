@@ -63,7 +63,11 @@ footer {
   padding: 5% 10%;
 }
 
-.book-card,
+.book-card {
+  width: 340px;
+  max-width: 397px;
+}
+
 .song-card {
   min-width: 340px;
 }
@@ -207,12 +211,24 @@ header {
   align-items: flex-end;
 }
 
+.align-content-center {
+  align-content: center;
+}
+
+.align-content-start {
+  align-content: flex-start;
+}
+
 .space-around {
   justify-content: space-around;
 }
 
 .justify-start {
   justify-content: flex-start;
+}
+
+justify-center {
+  justify-content: center;
 }
 
 .wrap {

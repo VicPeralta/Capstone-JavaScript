@@ -1,5 +1,5 @@
 import {
-  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest,
+  makeRequest, makeScrollable, makeNotScrollable, getBookInfo,
 } from './utils.js';
 
 class App {
@@ -39,14 +39,14 @@ class App {
     makeRequest(url, 'POST', JSON.stringify(body));
   }
 
-  static async getItemInfo(id) {
-    const url = ` https://itunes.apple.com/lookup?id=${id}`;
-    const result = makeXMLRequest(url);
+  static async getBookInfo(id) {
+    const url = `https://api.itbook.store/1.0/books/${id}`;
+    const result = getBookInfo(url);
     return result;
   }
 
   static async getItemList(url) {
-    const result = makeRequest(url);
+    const result = getBookInfo(url);
     return result;
   }
 
@@ -131,15 +131,15 @@ class App {
   static showPopBook(comments, bookInfo) {
     const template = document.getElementById('book-popup');
     const popup = template.content.cloneNode(true).children[0];
-    popup.querySelector('.image-book').setAttribute('src', App.getBiggerImageUrl(bookInfo.artworkUrl100));
-    popup.querySelector('.preview').setAttribute('href', bookInfo.trackViewUrl);
-    popup.querySelector('.title').textContent = bookInfo.trackName;
-    popup.querySelector('.author').textContent = bookInfo.artistName;
-    popup.querySelector('.description').textContent = App.removeMarkDown(bookInfo.description);
-    popup.querySelector('.release').textContent = bookInfo.releaseDate.substring(0, 10);
+    popup.querySelector('.image-book').setAttribute('src', bookInfo.image);
+    popup.querySelector('.preview').setAttribute('href', bookInfo.url);
+    popup.querySelector('.title').textContent = bookInfo.title;
+    popup.querySelector('.author').textContent = bookInfo.subtitle;
+    popup.querySelector('.description').textContent = bookInfo.desc;
+    popup.querySelector('.release').textContent = bookInfo.year;
     const commentSize = App.getCommentsSize(comments);
     popup.querySelector('.comments h2').textContent = `Comments (${commentSize})`;
-    popup.querySelector('.addComment-btn').setAttribute('data-id', bookInfo.trackId);
+    popup.querySelector('.addComment-btn').setAttribute('data-id', bookInfo.isbn13);
     const commentContainer = popup.querySelector('.comments-container');
     const innerHtml = App.getHTMLComments(comments);
     commentContainer.innerHTML = innerHtml;
@@ -195,35 +195,24 @@ class App {
     else item.likes += 1;
   }
 
-  getItemCard(item) {
+  getBookCard(book) {
     const template = document.getElementById('item-template');
     const card = template.content.cloneNode(true).children[0];
-    card.setAttribute('data-id', item.trackId);
-    card.querySelector('.title').textContent = item.trackName;
-    if (item.collectionName) card.querySelector('.author').textContent = item.collectionName;
-    else card.querySelector('.author').textContent = item.artistName;
-    card.querySelector('img').setAttribute('src', item.artworkUrl100);
+    card.setAttribute('data-id', book.isbn13);
+    card.querySelector('.title').textContent = book.title;
+    card.querySelector('.author').textContent = book.subtitle;
+    card.querySelector('img').setAttribute('src', book.image);
     const commentsBtn = card.querySelector('.comments-btn');
-    commentsBtn.setAttribute('data-id', item.trackId);
-    if (item.collectionName) {
-      commentsBtn.addEventListener('click', async (e) => {
-        const promises = [];
-        promises.push(App.getComments(e.target.dataset.id));
-        promises.push(App.getItemInfo(e.target.dataset.id));
-        const resolves = await Promise.all(promises);
-        App.showPopSong(resolves[0], resolves[1].results[0]);
-      });
-    } else {
-      commentsBtn.addEventListener('click', async (e) => {
-        const promises = [];
-        promises.push(App.getComments(e.target.dataset.id));
-        promises.push(App.getItemInfo(e.target.dataset.id));
-        const resolves = await Promise.all(promises);
-        App.showPopBook(resolves[0], resolves[1].results[0]);
-      });
-    }
+    commentsBtn.setAttribute('data-id', book.isbn13);
+    commentsBtn.addEventListener('click', async (e) => {
+      const promises = [];
+      promises.push(App.getComments(e.target.dataset.id));
+      promises.push(App.getBookInfo(e.target.dataset.id));
+      const resolves = await Promise.all(promises);
+      App.showPopBook(resolves[0], resolves[1]);
+    });
     const heart = card.querySelector('.material-icons');
-    heart.setAttribute('data-id', item.trackId);
+    heart.setAttribute('data-id', book.isbn13);
     heart.addEventListener('click', (e) => {
       App.postLike(e.target.dataset.id);
       const likes = this.getLikesForID(e.target.dataset.id);
@@ -231,7 +220,7 @@ class App {
       e.target.parentNode.querySelector('.likes').textContent = likes + 1;
       this.updateLikesForID(e.target.dataset.id);
     });
-    const likes = this.getLikesForID(item.trackId);
+    const likes = this.getLikesForID(book.isbn13);
     if (likes === 0) card.querySelector('.material-icons').textContent = 'favorite_border';
     else {
       heart.textContent = 'favorite';
@@ -243,10 +232,13 @@ class App {
   fillItemsCards(list) {
     const container = document.getElementById('items-container');
     while (container.lastChild) container.removeChild(container.lastChild);
-    list.forEach((item) => {
-      const card = this.getItemCard(item);
-      container.appendChild(card);
-    });
+    if (list === this.bookList) {
+      list.forEach((item) => {
+        const card = this.getBookCard(item, 'books');
+        container.appendChild(card);
+      });
+    }
+
     if (list === this.bookList) {
       document.querySelector('header a[data-href="books"]').textContent = `Books (${this.getBooksItemsSize()})`;
       document.querySelector('header a[data-href="music"]').textContent = 'Music';
@@ -257,13 +249,13 @@ class App {
   }
 
   async fillBookCards() {
-    const baseUrl = 'https://itunes.apple.com/search?';
-    const term = 'algorithm+data+structure';
-    const url = `${baseUrl}term=${term}&media=ebook&limit=48&country=US`;
+    const baseUrl = 'https://api.itbook.store/1.0/search/';
+    const term = 'data+structure';
+    const url = `${baseUrl}${term}`;
     const result = await App.getItemList(url);
     this.bookList = [];
-    if (result.results.length > 0) {
-      this.bookList = result.results;
+    if (result.books.length > 0) {
+      this.bookList = result.books;
       this.fillItemsCards(this.bookList);
     }
   }

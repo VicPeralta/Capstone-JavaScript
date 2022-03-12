@@ -1,6 +1,5 @@
 async function makeXMLRequest(url) {
   const socket = new XMLHttpRequest();
-  // 'https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US&callback=callData'
   socket.open('GET', `${url}&callback=callData`, false);
   socket.setRequestHeader('Credentials', 'omit');
   socket.setRequestHeader('Acept', 'application/json');
@@ -15,17 +14,25 @@ async function makeXMLRequest(url) {
   return [];
 }
 
+async function getBookInfo(url) {
+  try {
+    const result = await fetch(url);
+    if (result.status === 200) return result.json();
+    return [];
+  } catch {
+    return [];
+  }
+}
+
 async function makeRequest(url, method = 'GET', Body = '') {
   try {
     const options = {
       method: `${method}`,
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        cache: 'no-store',
+        'content-type': 'application/json',
+        accept: 'application/json',
       },
       mode: 'cors',
-      cache: 'no-store',
       credentials: 'same-origin',
     };
     if (Body !== '') options.body = Body;
@@ -50,5 +57,5 @@ function makeNotScrollable() {
 }
 
 export {
-  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest,
+  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest, getBookInfo,
 };
