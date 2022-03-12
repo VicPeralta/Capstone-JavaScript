@@ -126,7 +126,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _assets_itunesW_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/itunesW.png */ \"./src/assets/itunesW.png\");\n/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.js */ \"./src/app.js\");\n\n\n\n\nfunction callData(data) {\n  console.log(data);\n}\n\ndocument.querySelector('header img').setAttribute('src', _assets_itunesW_png__WEBPACK_IMPORTED_MODULE_1__);\n\nconst theApp = new _app_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\n\ntheApp.run();\n\n//# sourceURL=webpack://capstoneprojectjavascript/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _assets_itunesW_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/itunesW.png */ \"./src/assets/itunesW.png\");\n/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.js */ \"./src/app.js\");\n\n\n\n\ndocument.querySelector('header img').setAttribute('src', _assets_itunesW_png__WEBPACK_IMPORTED_MODULE_1__);\n\nconst theApp = new _app_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"]();\n\ntheApp.run();\n\n//# sourceURL=webpack://capstoneprojectjavascript/./src/index.js?");
 
 /***/ }),
 
