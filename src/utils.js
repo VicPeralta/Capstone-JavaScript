@@ -1,3 +1,17 @@
+function makeXMLRequest(url) {
+  const socket = new XMLHttpRequest();
+  // 'https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US&callback=callData'
+  socket.open('GET', `${url}&callback=callData`, false);
+  socket.setRequestHeader('Credentials', 'omit');
+  socket.setRequestHeader('Acept', 'application/json');
+  socket.setRequestHeader('Content-Type', 'application/json');
+  socket.send();
+  if (socket.status === 200) {
+    return JSON.parse(socket.response.substring(11, socket.response.length - 5));
+  }
+  return [];
+}
+
 async function makeRequest(url, method = 'GET', Body = '') {
   try {
     const options = {
@@ -31,4 +45,6 @@ function makeNotScrollable() {
   body.classList.add('makeNotScrollable');
 }
 
-export { makeRequest, makeScrollable, makeNotScrollable };
+export {
+  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest,
+};
