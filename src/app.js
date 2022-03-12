@@ -258,7 +258,7 @@ class App {
 
   async fillBookCards() {
     const baseUrl = 'https://itunes.apple.com/search?';
-    const term = 'algorithm+structure';
+    const term = 'algorithm+data+structure';
     const url = `${baseUrl}term=${term}&media=ebook&limit=48&country=US`;
     const result = await App.getItemList(url);
     this.bookList = [];
@@ -270,7 +270,7 @@ class App {
 
   async fillSongCards() {
     const baseUrl = 'https://itunes.apple.com/search?';
-    const term = 'mozart';
+    const term = 'beethoven';
     const url = `${baseUrl}term=${term}&media=music&limit=48&country=US`;
     const result = await App.getItemList(url);
     this.songList = [];
