@@ -1,5 +1,5 @@
 import {
-  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest
+  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest,
 } from './utils.js';
 
 class App {
@@ -46,8 +46,6 @@ class App {
   }
 
   static async getItemList(url) {
-    // const result = await makeRequest(url);
-    console.log(url);
     const result = makeXMLRequest(url);
     return result;
   }

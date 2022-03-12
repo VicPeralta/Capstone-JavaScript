@@ -1,7 +1,6 @@
 function makeXMLRequest(url) {
   const socket = new XMLHttpRequest();
   // 'https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US&callback=callData'
-  console.log(`${url}&callback=callData`);
   socket.open('GET', `${url}&callback=callData`, false);
   socket.setRequestHeader('Credentials', 'omit');
   socket.setRequestHeader('Acept', 'application/json');
