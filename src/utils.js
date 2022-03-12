@@ -1,10 +1,13 @@
-function makeXMLRequest(url) {
+async function makeXMLRequest(url) {
   const socket = new XMLHttpRequest();
   // 'https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US&callback=callData'
   socket.open('GET', `${url}&callback=callData`, false);
   socket.setRequestHeader('Credentials', 'omit');
   socket.setRequestHeader('Acept', 'application/json');
   socket.setRequestHeader('Content-Type', 'application/json');
+  socket.setRequestHeader('cache', 'no-store');
+  socket.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  socket.setRequestHeader('Access-Control-Allow-Origin', '*');
   socket.send();
   if (socket.status === 200) {
     return JSON.parse(socket.response.substring(11, socket.response.length - 5));
@@ -19,9 +22,10 @@ async function makeRequest(url, method = 'GET', Body = '') {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        cache: 'no-store',
       },
       mode: 'cors',
-      cache: 'no-cache',
+      cache: 'no-store',
       credentials: 'same-origin',
     };
     if (Body !== '') options.body = Body;

@@ -46,7 +46,7 @@ class App {
   }
 
   static async getItemList(url) {
-    const result = makeXMLRequest(url);
+    const result = makeRequest(url);
     return result;
   }
 
@@ -257,7 +257,10 @@ class App {
   }
 
   async fillBookCards() {
-    const result = await App.getItemList('https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US');
+    const baseUrl = 'https://itunes.apple.com/search?';
+    const term = 'algorithm+structure';
+    const url = `${baseUrl}term=${term}&media=ebook&limit=48&country=US`;
+    const result = await App.getItemList(url);
     this.bookList = [];
     if (result.results.length > 0) {
       this.bookList = result.results;
@@ -266,7 +269,10 @@ class App {
   }
 
   async fillSongCards() {
-    const result = await App.getItemList('https://itunes.apple.com/search?term=the+beatles&media=music&limit=48&country=US');
+    const baseUrl = 'https://itunes.apple.com/search?';
+    const term = 'mozart';
+    const url = `${baseUrl}term=${term}&media=music&limit=48&country=US`;
+    const result = await App.getItemList(url);
     this.songList = [];
     if (result.results.length > 0) {
       this.songList = result.results;
