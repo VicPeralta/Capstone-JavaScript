@@ -63,9 +63,10 @@ footer {
   padding: 5% 10%;
 }
 
-.book-card,
-.song-card {
+.book-card {
+  width: 340px;
   min-width: 340px;
+  max-width: 397px;
 }
 
 li {
@@ -179,8 +180,9 @@ header {
 }
 
 .grid {
-  display: grid;
-  gap: var(--gap, 1rem);
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
 .text-center {
@@ -207,12 +209,24 @@ header {
   align-items: flex-end;
 }
 
+.align-content-center {
+  align-content: center;
+}
+
+.align-content-start {
+  align-content: flex-start;
+}
+
 .space-around {
   justify-content: space-around;
 }
 
 .justify-start {
   justify-content: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .wrap {
@@ -333,6 +347,10 @@ li a:hover {
   .image-song {
     width: 100%;
     height: auto;
+  }
+
+  .items-container {
+    justify-content: center;
   }
 }
 

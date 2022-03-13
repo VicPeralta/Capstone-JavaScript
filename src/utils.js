@@ -1,18 +1,11 @@
-async function makeXMLRequest(url) {
-  const socket = new XMLHttpRequest();
-  // 'https://itunes.apple.com/search?term=javascript&media=ebook&limit=48&country=US&callback=callData'
-  socket.open('GET', `${url}&callback=callData`, false);
-  socket.setRequestHeader('Credentials', 'omit');
-  socket.setRequestHeader('Acept', 'application/json');
-  socket.setRequestHeader('Content-Type', 'application/json');
-  socket.setRequestHeader('cache', 'no-store');
-  socket.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  socket.setRequestHeader('Access-Control-Allow-Origin', '*');
-  socket.send();
-  if (socket.status === 200) {
-    return JSON.parse(socket.response.substring(11, socket.response.length - 5));
+async function lookUpBookInfo(url) {
+  try {
+    const result = await fetch(url);
+    if (result.status === 200) return result.json();
+    return [];
+  } catch {
+    return [];
   }
-  return [];
 }
 
 async function makeRequest(url, method = 'GET', Body = '') {
@@ -20,12 +13,10 @@ async function makeRequest(url, method = 'GET', Body = '') {
     const options = {
       method: `${method}`,
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        cache: 'no-store',
+        'content-type': 'application/json',
+        accept: 'application/json',
       },
       mode: 'cors',
-      cache: 'no-store',
       credentials: 'same-origin',
     };
     if (Body !== '') options.body = Body;
@@ -50,5 +41,5 @@ function makeNotScrollable() {
 }
 
 export {
-  makeRequest, makeScrollable, makeNotScrollable, makeXMLRequest,
+  makeRequest, makeScrollable, makeNotScrollable, lookUpBookInfo,
 };
