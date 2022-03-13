@@ -69,7 +69,8 @@ footer {
 }
 
 .song-card {
-  min-width: 340px;
+  width: 600px;
+  /* max-width: 397px; */
 }
 
 li {
@@ -227,7 +228,7 @@ header {
   justify-content: flex-start;
 }
 
-justify-center {
+.justify-center {
   justify-content: center;
 }
 
