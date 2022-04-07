@@ -2,7 +2,7 @@
 
 # Capstone Project for JavaScript module
 > Study & Relax   
-This App gives you a recomendation of JavaScript books to read and also let you hear some music, so you can concentrate and relax while you are studing.  
+This App gives you a recommendation of JavaScript books to read and also lets you hear some music, so you can concentrate and relax while you are studying. 
 
 For the music, this App uses the iTunes Searches API, for more information about this API please refer to the [Apple Reference](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html)   
 For the books list, this App uses the IT Bookstore API for more information about this API please refer to the [IT BookStore](https://api.itbook.store/#api-overview)
@@ -17,14 +17,9 @@ For the books list, this App uses the IT Bookstore API for more information abou
 ## Live Demo
 [Live demo](https://vicperalta.github.io/Capstone-JavaScript/)
 
-## Mobile
-<img src="./mobile.png" width="50%" height="auto"/>
 
-## Tablet
-<img src="./tablet.png" width="70%" height="auto"/>
+<img src="./study.png"/>
 
-## Desktop
-<img src="./desktop.png" width="100%" height="auto"/>
 ## Getting Started
 
 To get a local copy follow these simple example steps.  
@@ -55,7 +50,7 @@ To get a local copy follow these simple example steps.
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/VicPeralta/to-Do-List/issues).
+Feel free to check the [issues page](https://github.com/VicPeralta/Capstone-JavaScript/issues).
 
 ## Show your support
 
